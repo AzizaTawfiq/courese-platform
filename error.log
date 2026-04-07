@@ -1,0 +1,5 @@
+Need to install the following packages:
+vue-tsc@3.2.6
+Ok to proceed? (y) npm ERR! canceled
+
+npm ERR! A complete log of this run can be found in: C:\Users\DELL\AppData\Local\npm-cache\_logs\2026-04-07T16_30_07_713Z-debug-0.log
