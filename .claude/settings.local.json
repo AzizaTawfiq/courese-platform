@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(powershell -Command \"& '.specify/scripts/powershell/create-new-feature.ps1' 'Build a dual-portal corporate training web application where companies can discover, browse, purchase, and book certified training courses online.' -Json -ShortName 'dual-portal-training-platform' 'Build dual-portal corporate training platform'\")"
+    ]
+  }
+}
