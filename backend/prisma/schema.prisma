@@ -1,0 +1,199 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  CUSTOMER
+  ADMIN
+  SUPER_ADMIN
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+}
+
+enum PurchaseStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+}
+
+model User {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  passwordHash String
+  fullName     String
+  companyName  String
+  role         Role      @default(CUSTOMER)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  bookings     Booking[]
+  purchases    Purchase[]
+  tokens       RefreshToken[]
+
+  @@map("users")
+}
+
+model RefreshToken {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  revoked   Boolean  @default(false)
+
+  @@index([userId])
+  @@map("refresh_tokens")
+}
+
+model Program {
+  id             String     @id @default(cuid())
+  slug           String     @unique
+  nameAr         String
+  nameEn         String
+  descriptionAr  String     @db.Text
+  descriptionEn  String     @db.Text
+  seoTitleAr     String     @db.VarChar(60)
+  seoTitleEn     String     @db.VarChar(60)
+  seoDescAr      String     @db.VarChar(160)
+  seoDescEn      String     @db.VarChar(160)
+  seoKeywordsAr  String?
+  seoKeywordsEn  String?
+  isActive       Boolean    @default(true)
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+
+  categories     Category[]
+
+  @@map("programs")
+}
+
+model Category {
+  id            String   @id @default(cuid())
+  programId     String
+  program       Program  @relation(fields: [programId], references: [id], onDelete: Cascade)
+  nameAr        String
+  nameEn        String
+  descriptionAr String   @db.Text
+  descriptionEn String   @db.Text
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  courses       Course[]
+
+  @@map("categories")
+}
+
+model Course {
+  id             String     @id @default(cuid())
+  categoryId     String
+  category       Category   @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  slug           String     @unique
+  nameAr         String
+  nameEn         String
+  descriptionAr  String     @db.Text
+  descriptionEn  String     @db.Text
+  durationHours  Int
+  price          Decimal    @db.Decimal(10, 2)
+  currency       String     @default("SAR")
+  seoTitleAr     String     @db.VarChar(60)
+  seoTitleEn     String     @db.VarChar(60)
+  seoDescAr      String     @db.VarChar(160)
+  seoDescEn      String     @db.VarChar(160)
+  seoKeywordsAr  String?
+  seoKeywordsEn  String?
+  isActive       Boolean    @default(true)
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+
+  schedules      Schedule[]
+
+  @@map("courses")
+}
+
+model Schedule {
+  id          String    @id @default(cuid())
+  courseId    String
+  course      Course    @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  startDate   DateTime
+  endDate     DateTime
+  location    String?
+  maxCapacity Int
+  isActive    Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  bookings    Booking[]
+  purchases   Purchase[]
+
+  @@map("schedules")
+}
+
+model Purchase {
+  id         String         @id @default(cuid())
+  userId     String
+  user       User           @relation(fields: [userId], references: [id])
+  scheduleId String
+  schedule   Schedule       @relation(fields: [scheduleId], references: [id])
+  amount     Decimal        @db.Decimal(10, 2)
+  currency   String         @default("SAR")
+  status     PurchaseStatus @default(PENDING)
+  paymentRef String?
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
+
+  booking    Booking?
+
+  @@map("purchases")
+}
+
+model Booking {
+  id         String        @id @default(cuid())
+  userId     String
+  user       User          @relation(fields: [userId], references: [id])
+  scheduleId String
+  schedule   Schedule      @relation(fields: [scheduleId], references: [id])
+  purchaseId String        @unique
+  purchase   Purchase      @relation(fields: [purchaseId], references: [id])
+  reference  String        @unique
+  status     BookingStatus @default(PENDING)
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+
+  @@map("bookings")
+}
+
+model ScheduleFile {
+  id           String   @id @default(cuid())
+  filename     String
+  originalName String
+  mimeType     String
+  fileUrl      String
+  uploadedBy   String
+  createdAt    DateTime @default(now())
+
+  @@map("schedule_files")
+}
+
+model SlugRedirect {
+  id         String   @id @default(cuid())
+  oldSlug    String
+  newSlug    String
+  entityType String
+  entityId   String
+  createdAt  DateTime @default(now())
+
+  @@unique([oldSlug, entityType])
+  @@map("slug_redirects")
+}
