@@ -2,10 +2,61 @@
   "common": {
     "footer": "All rights reserved for MA Training."
   },
+  "catalog": {
+    "programsLabel": "Programs",
+    "availableDates": "Available Dates",
+    "duration": "Duration",
+    "price": "Price",
+    "bookNow": "Book Now",
+    "availableSeats": "Available Seats",
+    "noCourses": "No courses available right now.",
+    "noUpcomingDates": "No Upcoming Dates",
+    "scheduleBannerPlaceholder": "Schedule file banner will appear here once the public download flow is ready.",
+    "home": {
+      "eyebrow": "Corporate Training Platform",
+      "title": "Training programs built for ambitious teams",
+      "description": "Browse certified corporate programs, compare course options, and explore upcoming schedules in Arabic and English.",
+      "programsHeading": "Explore the catalog",
+      "availablePrograms": "programs",
+      "categoriesCount": "categories",
+      "exploreProgram": "Explore program",
+      "seoTitle": "MA Training Catalog",
+      "seoDescription": "Browse bilingual corporate training programs, categories, and courses from MA Training."
+    },
+    "program": {
+      "categoriesHeading": "Program categories",
+      "categoriesCount": "categories",
+      "coursesCount": "courses",
+      "seoFallbackTitle": "Program",
+      "seoFallbackDescription": "Explore program categories and bilingual course content."
+    },
+    "category": {
+      "eyebrow": "Course Category",
+      "coursesHeading": "Courses in this category",
+      "seoFallbackTitle": "Category",
+      "seoFallbackDescription": "Explore the courses available in this training category."
+    },
+    "course": {
+      "eyebrow": "Course Details",
+      "onlineLocation": "Online / To be confirmed",
+      "confirmedBookings": "Confirmed bookings",
+      "seoFallbackTitle": "Course Detail",
+      "seoFallbackDescription": "Explore course outcomes, pricing, and upcoming schedule dates."
+    }
+  },
   "auth": {
     "login": "Login",
     "register": "Register",
     "logout": "Logout"
+  },
+  "admin": {
+    "portal": "Admin Portal",
+    "login": "Admin Login",
+    "programs": "Programs",
+    "categories": "Categories",
+    "courses": "Courses",
+    "schedules": "Schedules",
+    "scheduleFile": "Schedule File"
   },
   "dashboard": {
     "title": "Dashboard"

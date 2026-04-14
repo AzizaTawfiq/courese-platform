@@ -6,23 +6,17 @@
       >
         <RouterLink
           class="text-lg font-semibold tracking-wide text-brand-700"
-          to="/"
+          :to="localePrefix || '/'"
           >MA Training</RouterLink
         >
         <div class="flex items-center gap-3 text-sm">
-          <button
-            class="rounded-full border border-brand-200 px-3 py-1 text-brand-700 transition hover:bg-brand-50"
-            type="button"
-            @click="toggleLocale"
-          >
-            {{ uiStore.locale === 'ar' ? 'EN' : 'AR' }}
-          </button>
-          <RouterLink class="hover:text-brand-500" to="/login">{{
+          <LanguageSwitcher />
+          <RouterLink class="hover:text-brand-500" :to="`${localePrefix}/login`">{{
             t('auth.login')
           }}</RouterLink>
           <RouterLink
             class="rounded-full bg-brand-700 px-4 py-2 text-white"
-            to="/register"
+            :to="`${localePrefix}/register`"
           >
             {{ t('auth.register') }}
           </RouterLink>
@@ -43,14 +37,18 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { RouterLink, RouterView } from 'vue-router';
+import { RouterLink, RouterView, useRoute } from 'vue-router';
+import LanguageSwitcher from '@/shared/components/LanguageSwitcher.vue';
 import { useUIStore } from '@/shared/stores/ui';
 
+const route = useRoute();
 const { t } = useI18n();
 const uiStore = useUIStore();
-
-const toggleLocale = () => {
-  uiStore.locale = uiStore.locale === 'ar' ? 'en' : 'ar';
-};
+const localePrefix = computed(() => {
+  const locale =
+    route.params.locale === 'en' || uiStore.locale === 'en' ? 'en' : 'ar';
+  return locale === 'en' ? '/en' : '';
+});
 </script>

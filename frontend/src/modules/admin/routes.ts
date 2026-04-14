@@ -1,25 +1,27 @@
 import { defineComponent, h } from 'vue';
+import { useI18n } from 'vue-i18n';
 import type { RouteRecordRaw } from 'vue-router';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 import AdminLayout from '@/layouts/AdminLayout.vue';
 
-const makeAdminView = (title: string, compact = false) =>
+const makeAdminView = (titleKey: string, compact = false) =>
   defineComponent({
-    name: `${title.replace(/\s+/g, '')}AdminView`,
+    name: `${titleKey.replace(/\W+/g, '')}AdminView`,
     setup() {
+      const { t } = useI18n();
       return () =>
         h('section', { class: compact ? 'mx-auto max-w-xl px-6 py-20' : '' }, [
-          h('h1', { class: 'text-3xl font-semibold' }, title),
+          h('h1', { class: 'text-3xl font-semibold' }, t(titleKey)),
         ]);
     },
   });
 
-const adminLoginView = makeAdminView('Admin Login', true);
-const adminProgramsView = makeAdminView('Programs');
-const adminCategoriesView = makeAdminView('Categories');
-const adminCoursesView = makeAdminView('Courses');
-const adminSchedulesView = makeAdminView('Schedules');
-const adminScheduleFileView = makeAdminView('Schedule File');
+const adminLoginView = makeAdminView('admin.login', true);
+const adminProgramsView = makeAdminView('admin.programs');
+const adminCategoriesView = makeAdminView('admin.categories');
+const adminCoursesView = makeAdminView('admin.courses');
+const adminSchedulesView = makeAdminView('admin.schedules');
+const adminScheduleFileView = makeAdminView('admin.scheduleFile');
 
 export const adminRoutes: RouteRecordRaw[] = [
   {

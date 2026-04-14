@@ -3,8 +3,10 @@ import { useHead } from '@vueuse/head';
 import { useI18n } from 'vue-i18n';
 
 interface SeoOptions {
-  titleKey: MaybeRef<string>;
-  descriptionKey: MaybeRef<string>;
+  titleKey?: MaybeRef<string>;
+  title?: MaybeRef<string>;
+  descriptionKey?: MaybeRef<string>;
+  description?: MaybeRef<string>;
   canonicalPath: MaybeRef<string>;
   ogType?: MaybeRef<string>;
   jsonLd?: MaybeRef<Record<string, unknown> | null>;
@@ -14,8 +16,21 @@ export const useSeo = (options: SeoOptions) => {
   const { t } = useI18n();
   const siteUrl = import.meta.env.VITE_SITE_URL ?? 'http://localhost:5173';
 
-  const title = computed(() => t(unref(options.titleKey)));
-  const description = computed(() => t(unref(options.descriptionKey)));
+  const title = computed(() => {
+    if (options.title) {
+      return unref(options.title);
+    }
+
+    return options.titleKey ? t(unref(options.titleKey)) : '';
+  });
+
+  const description = computed(() => {
+    if (options.description) {
+      return unref(options.description);
+    }
+
+    return options.descriptionKey ? t(unref(options.descriptionKey)) : '';
+  });
   const canonicalUrl = computed(() =>
     new URL(unref(options.canonicalPath), siteUrl).toString(),
   );

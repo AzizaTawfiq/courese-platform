@@ -3,7 +3,7 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import express from 'express';
 import path from 'node:path';
-import apiRouter from './routes/index.js';
+import rootRouter from './routes/index.js';
 
 export const createApp = () => {
   const app = express();
@@ -32,7 +32,7 @@ export const createApp = () => {
   app.get('/health', (_req, res) => {
     res.json({ status: 'ok' });
   });
-  app.use('/api/v1', apiRouter);
+  app.use(rootRouter);
 
   return app;
 };

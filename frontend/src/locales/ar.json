@@ -2,10 +2,61 @@
   "common": {
     "footer": "جميع الحقوق محفوظة لمنصة التدريب"
   },
+  "catalog": {
+    "programsLabel": "البرامج",
+    "availableDates": "المواعيد المتاحة",
+    "duration": "المدة",
+    "price": "السعر",
+    "bookNow": "احجز الآن",
+    "availableSeats": "المقاعد المتاحة",
+    "noCourses": "لا توجد دورات متاحة حالياً.",
+    "noUpcomingDates": "لا توجد مواعيد قادمة",
+    "scheduleBannerPlaceholder": "سيظهر هنا شريط ملف الجدول التدريبي بعد تفعيل مسار التنزيل العام.",
+    "home": {
+      "eyebrow": "منصة التدريب المؤسسي",
+      "title": "برامج تدريبية مصممة للفرق الطموحة",
+      "description": "تصفح البرامج التدريبية المعتمدة، وقارن بين خيارات الدورات، واستعرض المواعيد القادمة باللغتين العربية والإنجليزية.",
+      "programsHeading": "استكشف الكتالوج",
+      "availablePrograms": "برنامجاً",
+      "categoriesCount": "فئات",
+      "exploreProgram": "استعرض البرنامج",
+      "seoTitle": "كتالوج MA Training",
+      "seoDescription": "تصفح البرامج والفئات والدورات التدريبية الثنائية اللغة من MA Training."
+    },
+    "program": {
+      "categoriesHeading": "فئات البرنامج",
+      "categoriesCount": "فئات",
+      "coursesCount": "دورات",
+      "seoFallbackTitle": "البرنامج",
+      "seoFallbackDescription": "استعرض فئات البرنامج والمحتوى التدريبي باللغتين."
+    },
+    "category": {
+      "eyebrow": "الفئة التدريبية",
+      "coursesHeading": "الدورات داخل هذه الفئة",
+      "seoFallbackTitle": "الفئة",
+      "seoFallbackDescription": "استعرض الدورات المتاحة ضمن هذه الفئة التدريبية."
+    },
+    "course": {
+      "eyebrow": "تفاصيل الدورة",
+      "onlineLocation": "عن بُعد / يحدد لاحقاً",
+      "confirmedBookings": "الحجوزات المؤكدة",
+      "seoFallbackTitle": "تفاصيل الدورة",
+      "seoFallbackDescription": "استعرض أهداف الدورة وسعرها والمواعيد التدريبية القادمة."
+    }
+  },
   "auth": {
     "login": "تسجيل الدخول",
     "register": "إنشاء حساب",
     "logout": "تسجيل الخروج"
+  },
+  "admin": {
+    "portal": "بوابة الإدارة",
+    "login": "تسجيل دخول الإدارة",
+    "programs": "البرامج",
+    "categories": "الفئات",
+    "courses": "الدورات",
+    "schedules": "الجداول",
+    "scheduleFile": "ملف الجدول"
   },
   "dashboard": {
     "title": "لوحة التحكم"

@@ -4,7 +4,7 @@
       <div
         class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4"
       >
-        <RouterLink class="font-semibold" to="/dashboard">{{
+        <RouterLink class="font-semibold" :to="`${localePrefix}/dashboard`">{{
           t('dashboard.title')
         }}</RouterLink>
         <button
@@ -23,10 +23,13 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { RouterLink, RouterView } from 'vue-router';
+import { RouterLink, RouterView, useRoute } from 'vue-router';
 import { useAuthStore } from '@/shared/stores/auth';
 
+const route = useRoute();
 const { t } = useI18n();
 const authStore = useAuthStore();
+const localePrefix = computed(() => (route.params.locale === 'en' ? '/en' : ''));
 </script>

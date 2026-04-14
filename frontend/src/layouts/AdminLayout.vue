@@ -7,33 +7,33 @@
         class="mb-8 block text-xl font-semibold tracking-wide text-cyan-300"
         to="/admin/programs"
       >
-        Admin Portal
+        {{ t('admin.portal') }}
       </RouterLink>
       <nav class="space-y-3 text-sm">
         <RouterLink
           class="block rounded-xl px-4 py-3 hover:bg-slate-800"
           to="/admin/programs"
-          >Programs</RouterLink
+          >{{ t('admin.programs') }}</RouterLink
         >
         <RouterLink
           class="block rounded-xl px-4 py-3 hover:bg-slate-800"
           to="/admin/categories"
-          >Categories</RouterLink
+          >{{ t('admin.categories') }}</RouterLink
         >
         <RouterLink
           class="block rounded-xl px-4 py-3 hover:bg-slate-800"
           to="/admin/courses"
-          >Courses</RouterLink
+          >{{ t('admin.courses') }}</RouterLink
         >
         <RouterLink
           class="block rounded-xl px-4 py-3 hover:bg-slate-800"
           to="/admin/schedules"
-          >Schedules</RouterLink
+          >{{ t('admin.schedules') }}</RouterLink
         >
         <RouterLink
           class="block rounded-xl px-4 py-3 hover:bg-slate-800"
           to="/admin/schedule-file"
-          >Schedule File</RouterLink
+          >{{ t('admin.scheduleFile') }}</RouterLink
         >
       </nav>
     </aside>

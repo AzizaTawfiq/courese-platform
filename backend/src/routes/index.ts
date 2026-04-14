@@ -7,7 +7,10 @@ import coursesRouter from '../modules/courses/courses.routes.js';
 import programsRouter from '../modules/programs/programs.routes.js';
 import purchasesRouter from '../modules/purchases/purchases.routes.js';
 import schedulesRouter from '../modules/schedules/schedules.routes.js';
+import { cacheService } from '../services/cache.service.js';
+import { generateSitemapXml } from '../services/sitemap.service.js';
 
+const rootRouter = Router();
 const apiRouter = Router();
 
 apiRouter.use('/auth', authRouter);
@@ -19,4 +22,20 @@ apiRouter.use('/bookings', bookingsRouter);
 apiRouter.use('/admin', adminRouter);
 apiRouter.use('/admin/schedules', schedulesRouter);
 
-export default apiRouter;
+rootRouter.get('/sitemap.xml', async (_req, res) => {
+  const cacheKey = 'cache:sitemap';
+  const cached = await cacheService.get<string>(cacheKey);
+
+  if (cached) {
+    res.type('application/xml').send(cached);
+    return;
+  }
+
+  const xml = await generateSitemapXml();
+  await cacheService.set(cacheKey, xml, 60 * 60);
+  res.type('application/xml').send(xml);
+});
+
+rootRouter.use('/api/v1', apiRouter);
+
+export default rootRouter;

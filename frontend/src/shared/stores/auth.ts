@@ -1,6 +1,7 @@
 import { ref } from 'vue';
 import { defineStore } from 'pinia';
 import router from '@/router';
+import { useUIStore } from '@/shared/stores/ui';
 
 export type UserRole = 'CUSTOMER' | 'ADMIN' | 'SUPER_ADMIN' | null;
 
@@ -30,8 +31,10 @@ export const useAuthStore = defineStore('auth', () => {
   };
 
   const logout = async () => {
+    const uiStore = useUIStore();
+    const localePrefix = uiStore.locale === 'en' ? '/en' : '';
     clearSession();
-    await router.push('/login');
+    await router.push(`${localePrefix}/login`);
   };
 
   return { accessToken, user, role, setSession, clearSession, logout };

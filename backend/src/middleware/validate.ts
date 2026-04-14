@@ -19,6 +19,10 @@ export const validate = (schema: AnyZodObject) => {
       return;
     }
 
+    req.body = result.data.body;
+    Object.assign(req.params, result.data.params);
+    Object.assign(req.query, result.data.query);
+
     next();
   };
 };

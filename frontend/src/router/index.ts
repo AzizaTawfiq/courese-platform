@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import { useAuthStore } from '@/shared/stores/auth';
+import { useUIStore } from '@/shared/stores/ui';
 import { customerRoutes } from '@/modules/customer/routes';
 import { adminRoutes } from '@/modules/admin/routes';
 
@@ -10,11 +11,16 @@ const router = createRouter({
 
 router.beforeEach(async (to) => {
   const authStore = useAuthStore();
+  const uiStore = useUIStore();
   const requiresAuth = Boolean(to.meta.requiresAuth);
   const requiredRoles = (to.meta.roles as string[] | undefined) ?? [];
+  const locale = to.params.locale === 'en' ? 'en' : 'ar';
+  const localePrefix = locale === 'en' ? '/en' : '';
+
+  uiStore.locale = locale;
 
   if (requiresAuth && !authStore.accessToken) {
-    return to.path.startsWith('/admin') ? '/admin/login' : '/login';
+    return to.path.startsWith('/admin') ? '/admin/login' : `${localePrefix}/login`;
   }
 
   if (
@@ -24,7 +30,7 @@ router.beforeEach(async (to) => {
   ) {
     return authStore.role === 'ADMIN' || authStore.role === 'SUPER_ADMIN'
       ? '/admin/programs'
-      : '/dashboard';
+      : `${localePrefix}/dashboard`;
   }
 
   return true;

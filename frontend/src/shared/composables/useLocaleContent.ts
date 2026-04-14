@@ -1,18 +1,18 @@
-import { computed } from 'vue';
+import { computed, unref, type MaybeRef } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useUIStore } from '@/shared/stores/ui';
 
-type LocalizedRecord = Record<string, string | undefined>;
-
-export const useLocaleContent = <T extends LocalizedRecord>(
-  source: T,
+export const useLocaleContent = <T extends Record<string, unknown>>(
+  source: MaybeRef<T | null | undefined>,
   baseKey: string,
 ) => {
   const uiStore = useUIStore();
   const { locale } = storeToRefs(uiStore);
 
   return computed(() => {
+    const record = unref(source);
     const suffix = locale.value === 'ar' ? 'Ar' : 'En';
-    return source[`${baseKey}${suffix}`];
+    const value = record?.[`${baseKey}${suffix}`];
+    return typeof value === 'string' ? value : '';
   });
 };

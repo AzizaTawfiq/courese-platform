@@ -84,34 +84,34 @@ layer, auth middleware, shared composables, Pinia stores, and routing skeleton.
 
 ### Backend — US1
 
-- [ ] T034 [P] [US1] Create programs Zod schemas in `backend/src/modules/programs/programs.schema.ts` — `createProgramSchema` (all bilingual fields required, seoTitle ≤ 60, seoDesc ≤ 160, slug regex)
-- [ ] T035 [P] [US1] Implement `programs.service.ts` in `backend/src/modules/programs/programs.service.ts` — `listPrograms()` with Redis `cache:list:programs`, `getProgramBySlug(slug)` with `cache:entity:program:<slug>`, slug-redirect check returning 301 metadata
-- [ ] T036 [US1] Implement `programs.controller.ts` in `backend/src/modules/programs/programs.controller.ts` — handlers for `GET /api/v1/programs` and `GET /api/v1/programs/:slug`; apply Redis cache middleware; return 404 or 301 per service
-- [ ] T037 [US1] Create `programs.routes.ts` in `backend/src/modules/programs/programs.routes.ts` — mount GET handlers; register under `/api/v1/programs` in `backend/src/routes/index.ts`
-- [ ] T038 [P] [US1] Create categories Zod schemas in `backend/src/modules/categories/categories.schema.ts`
-- [ ] T039 [P] [US1] Implement `categories.service.ts` in `backend/src/modules/categories/categories.service.ts` — `listCategories(programSlug)` with `cache:list:categories:<programSlug>`, `getCategoryById(id)` with courses array
-- [ ] T040 [US1] Implement `categories.controller.ts` and `categories.routes.ts` in `backend/src/modules/categories/` — `GET /api/v1/programs/:programSlug/categories` and `GET /api/v1/programs/:programSlug/categories/:id`; register in routes index
-- [ ] T041 [P] [US1] Create courses Zod schemas in `backend/src/modules/courses/courses.schema.ts`
-- [ ] T042 [P] [US1] Implement `courses.service.ts` in `backend/src/modules/courses/courses.service.ts` — `listCourses(filters)` with `cache:list:courses:<key>`, `getCourseBySlug(slug)` including schedules with computed `availableSeats = maxCapacity - confirmedBookings`
-- [ ] T043 [US1] Implement `courses.controller.ts` and `courses.routes.ts` in `backend/src/modules/courses/` — `GET /api/v1/courses` and `GET /api/v1/courses/:slug` with Redis cache middleware; slug-redirect 301; register in routes index
-- [ ] T044 [US1] Implement `sitemap.service.ts` in `backend/src/services/sitemap.service.ts` — queries all active Programs, Categories, Courses; builds XML with `<url>` per entity including `<xhtml:link>` hreflang `ar`/`en`/`x-default`; TTL 1 hr in `cache:sitemap`
-- [ ] T045 [US1] Add `GET /sitemap.xml` route in `backend/src/routes/index.ts` — serves cached sitemap XML with `Content-Type: application/xml`
+- [X] T034 [P] [US1] Create programs Zod schemas in `backend/src/modules/programs/programs.schema.ts` — `createProgramSchema` (all bilingual fields required, seoTitle ≤ 60, seoDesc ≤ 160, slug regex)
+- [X] T035 [P] [US1] Implement `programs.service.ts` in `backend/src/modules/programs/programs.service.ts` — `listPrograms()` with Redis `cache:list:programs`, `getProgramBySlug(slug)` with `cache:entity:program:<slug>`, slug-redirect check returning 301 metadata
+- [X] T036 [US1] Implement `programs.controller.ts` in `backend/src/modules/programs/programs.controller.ts` — handlers for `GET /api/v1/programs` and `GET /api/v1/programs/:slug`; apply Redis cache middleware; return 404 or 301 per service
+- [X] T037 [US1] Create `programs.routes.ts` in `backend/src/modules/programs/programs.routes.ts` — mount GET handlers; register under `/api/v1/programs` in `backend/src/routes/index.ts`
+- [X] T038 [P] [US1] Create categories Zod schemas in `backend/src/modules/categories/categories.schema.ts`
+- [X] T039 [P] [US1] Implement `categories.service.ts` in `backend/src/modules/categories/categories.service.ts` — `listCategories(programSlug)` with `cache:list:categories:<programSlug>`, `getCategoryById(id)` with courses array
+- [X] T040 [US1] Implement `categories.controller.ts` and `categories.routes.ts` in `backend/src/modules/categories/` — `GET /api/v1/programs/:programSlug/categories` and `GET /api/v1/programs/:programSlug/categories/:id`; register in routes index
+- [X] T041 [P] [US1] Create courses Zod schemas in `backend/src/modules/courses/courses.schema.ts`
+- [X] T042 [P] [US1] Implement `courses.service.ts` in `backend/src/modules/courses/courses.service.ts` — `listCourses(filters)` with `cache:list:courses:<key>`, `getCourseBySlug(slug)` including schedules with computed `availableSeats = maxCapacity - confirmedBookings`
+- [X] T043 [US1] Implement `courses.controller.ts` and `courses.routes.ts` in `backend/src/modules/courses/` — `GET /api/v1/courses` and `GET /api/v1/courses/:slug` with Redis cache middleware; slug-redirect 301; register in routes index
+- [X] T044 [US1] Implement `sitemap.service.ts` in `backend/src/services/sitemap.service.ts` — queries all active Programs, Categories, Courses; builds XML with `<url>` per entity including `<xhtml:link>` hreflang `ar`/`en`/`x-default`; TTL 1 hr in `cache:sitemap`
+- [X] T045 [US1] Add `GET /sitemap.xml` route in `backend/src/routes/index.ts` — serves cached sitemap XML with `Content-Type: application/xml`
 
 ### Frontend — US1
 
-- [ ] T046 [P] [US1] Add catalog locale keys to `frontend/src/locales/ar.json` and `frontend/src/locales/en.json` — nav labels, page headings, "No courses", "Available Dates", "Duration", "Price", "Book Now", "No Upcoming Dates", schedule download banner
-- [ ] T047 [P] [US1] Define TypeScript interfaces in `frontend/src/shared/types/catalog.ts` — `Program`, `Category`, `Course`, `Schedule` (including `availableSeats`), paginated list shapes matching contract responses
-- [ ] T048 [P] [US1] Implement `programsService.ts` in `frontend/src/shared/services/programsService.ts` — typed `listPrograms()` and `getProgram(slug)` using the Axios base instance
-- [ ] T049 [P] [US1] Implement `coursesService.ts` in `frontend/src/shared/services/coursesService.ts` — typed `listCourses(filters)` and `getCourse(slug)`
-- [ ] T050 [P] [US1] Implement `useProgramsStore` in `frontend/src/shared/stores/programs.ts` (Composition API) — `programs`, `currentProgram`, `fetchPrograms()`, `fetchProgram(slug)`
-- [ ] T051 [P] [US1] Implement `useCoursesStore` in `frontend/src/shared/stores/courses.ts` (Composition API) — `courses`, `currentCourse`, `fetchCourses(filters)`, `fetchCourse(slug)`
-- [ ] T052 [US1] Create customer module route definitions in `frontend/src/modules/customer/routes.ts` — public routes wrapped in `PublicLayout`: `/` (CustomerHome), `/programs/:slug` (Programs), `/programs/:programSlug/categories/:id` (Categories), `/programs/:slug/courses/:courseSlug` (CourseDetail); auth routes in `CustomerLayout`: `/dashboard`
-- [ ] T053 [US1] Create `CustomerHome.vue` in `frontend/src/modules/customer/views/CustomerHome.vue` — fetches programs list via `useProgramsStore`; renders program cards linking to `/programs/:slug`; calls `useSeo()` with landing-page JSON-LD `WebSite`; includes `ScheduleBanner` slot
-- [ ] T054 [US1] Create `Programs.vue` in `frontend/src/modules/customer/views/Programs.vue` — fetches program by `slug` param; shows bilingual name/description via `useLocaleContent`; lists categories as cards; calls `useSeo()` with BreadcrumbList + `EducationalOrganization` JSON-LD
-- [ ] T055 [US1] Create `Categories.vue` in `frontend/src/modules/customer/views/Categories.vue` — fetches category by `id` param (with parent programSlug); lists courses as cards; calls `useSeo()` with BreadcrumbList JSON-LD
-- [ ] T056 [US1] Create `CourseDetail.vue` in `frontend/src/modules/customer/views/CourseDetail.vue` — fetches course by `courseSlug`; shows bilingual name, description, duration, price, currency; renders schedule slots with dates, location, seat availability; shows "No Upcoming Dates" when no active schedules; calls `useSeo()` with `schema.org/Course` JSON-LD
-- [ ] T057 [US1] Add language switcher component `LanguageSwitcher.vue` in `frontend/src/shared/components/LanguageSwitcher.vue` — toggles `useUIStore.locale` between `ar` and `en`; updates `document.dir`; integrate in `PublicLayout.vue` nav
-- [ ] T058 [US1] Verify all four public views (`CustomerHome`, `Programs`, `Categories`, `CourseDetail`) call `useSeo()` with non-empty `title`, `description`, `canonicalPath`, `ogType`, and `jsonLd` — constitution gate 2
+- [X] T046 [P] [US1] Add catalog locale keys to `frontend/src/locales/ar.json` and `frontend/src/locales/en.json` — nav labels, page headings, "No courses", "Available Dates", "Duration", "Price", "Book Now", "No Upcoming Dates", schedule download banner
+- [X] T047 [P] [US1] Define TypeScript interfaces in `frontend/src/shared/types/catalog.ts` — `Program`, `Category`, `Course`, `Schedule` (including `availableSeats`), paginated list shapes matching contract responses
+- [X] T048 [P] [US1] Implement `programsService.ts` in `frontend/src/shared/services/programsService.ts` — typed `listPrograms()` and `getProgram(slug)` using the Axios base instance
+- [X] T049 [P] [US1] Implement `coursesService.ts` in `frontend/src/shared/services/coursesService.ts` — typed `listCourses(filters)` and `getCourse(slug)`
+- [X] T050 [P] [US1] Implement `useProgramsStore` in `frontend/src/shared/stores/programs.ts` (Composition API) — `programs`, `currentProgram`, `fetchPrograms()`, `fetchProgram(slug)`
+- [X] T051 [P] [US1] Implement `useCoursesStore` in `frontend/src/shared/stores/courses.ts` (Composition API) — `courses`, `currentCourse`, `fetchCourses(filters)`, `fetchCourse(slug)`
+- [X] T052 [US1] Create customer module route definitions in `frontend/src/modules/customer/routes.ts` — public routes wrapped in `PublicLayout`: `/` (CustomerHome), `/programs/:slug` (Programs), `/programs/:programSlug/categories/:id` (Categories), `/programs/:slug/courses/:courseSlug` (CourseDetail); auth routes in `CustomerLayout`: `/dashboard`
+- [X] T053 [US1] Create `CustomerHome.vue` in `frontend/src/modules/customer/views/CustomerHome.vue` — fetches programs list via `useProgramsStore`; renders program cards linking to `/programs/:slug`; calls `useSeo()` with landing-page JSON-LD `WebSite`; includes `ScheduleBanner` slot
+- [X] T054 [US1] Create `Programs.vue` in `frontend/src/modules/customer/views/Programs.vue` — fetches program by `slug` param; shows bilingual name/description via `useLocaleContent`; lists categories as cards; calls `useSeo()` with BreadcrumbList + `EducationalOrganization` JSON-LD
+- [X] T055 [US1] Create `Categories.vue` in `frontend/src/modules/customer/views/Categories.vue` — fetches category by `id` param (with parent programSlug); lists courses as cards; calls `useSeo()` with BreadcrumbList JSON-LD
+- [X] T056 [US1] Create `CourseDetail.vue` in `frontend/src/modules/customer/views/CourseDetail.vue` — fetches course by `courseSlug`; shows bilingual name, description, duration, price, currency; renders schedule slots with dates, location, seat availability; shows "No Upcoming Dates" when no active schedules; calls `useSeo()` with `schema.org/Course` JSON-LD
+- [X] T057 [US1] Add language switcher component `LanguageSwitcher.vue` in `frontend/src/shared/components/LanguageSwitcher.vue` — toggles `useUIStore.locale` between `ar` and `en`; updates `document.dir`; integrate in `PublicLayout.vue` nav
+- [X] T058 [US1] Verify all four public views (`CustomerHome`, `Programs`, `Categories`, `CourseDetail`) call `useSeo()` with non-empty `title`, `description`, `canonicalPath`, `ogType`, and `jsonLd` — constitution gate 2
 
 **Checkpoint**: US1 fully functional — anonymous visitor can browse full catalog in AR/EN with SEO metadata; sitemap accessible at `/sitemap.xml`
 

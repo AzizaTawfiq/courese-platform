@@ -1,43 +1,78 @@
 import { defineComponent, h } from 'vue';
+import { useI18n } from 'vue-i18n';
 import type { RouteRecordRaw } from 'vue-router';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 import CustomerLayout from '@/layouts/CustomerLayout.vue';
+import Categories from './views/Categories.vue';
+import CourseDetail from './views/CourseDetail.vue';
+import CustomerHome from './views/CustomerHome.vue';
+import Programs from './views/Programs.vue';
 
-const makeView = (title: string, body?: string, compact = false) =>
-  defineComponent({
-    name: `${title.replace(/\s+/g, '')}View`,
-    setup() {
-      return () =>
-        h('section', { class: compact ? '' : 'mx-auto max-w-6xl px-6 py-24' }, [
-          h(
-            'h1',
-            {
-              class: compact
-                ? 'text-3xl font-semibold'
-                : 'text-5xl font-semibold',
-            },
-            title,
-          ),
-          body
-            ? h('p', { class: 'mt-4 max-w-2xl text-lg text-brand-700' }, body)
-            : null,
-        ]);
-    },
-  });
+const loginView = defineComponent({
+  name: 'CustomerLoginPlaceholder',
+  setup() {
+    const { t } = useI18n();
+    return () =>
+      h('section', { class: 'mx-auto max-w-3xl px-6 py-16' }, [
+        h(
+          'h1',
+          { class: 'text-3xl font-semibold text-brand-900' },
+          t('auth.login'),
+        ),
+      ]);
+  },
+});
 
-const homeView = makeView(
-  'MA Training',
-  'Customer portal foundation is ready for the catalog modules.',
-);
-const loginView = makeView('Login');
-const registerView = makeView('Register');
-const dashboardView = makeView('Dashboard', undefined, true);
+const registerView = defineComponent({
+  name: 'CustomerRegisterPlaceholder',
+  setup() {
+    const { t } = useI18n();
+    return () =>
+      h('section', { class: 'mx-auto max-w-3xl px-6 py-16' }, [
+        h(
+          'h1',
+          { class: 'text-3xl font-semibold text-brand-900' },
+          t('auth.register'),
+        ),
+      ]);
+  },
+});
+
+const dashboardView = defineComponent({
+  name: 'CustomerDashboardPlaceholder',
+  setup() {
+    const { t } = useI18n();
+    return () =>
+      h('section', { class: 'mx-auto max-w-4xl px-6 py-16' }, [
+        h(
+          'h1',
+          { class: 'text-3xl font-semibold text-brand-900' },
+          t('dashboard.title'),
+        ),
+      ]);
+  },
+});
 
 const publicChildren = (localized: boolean): RouteRecordRaw[] => [
   {
     path: '',
     name: localized ? 'home-locale' : 'home',
-    component: homeView,
+    component: CustomerHome,
+  },
+  {
+    path: 'programs/:slug',
+    name: localized ? 'programs-locale' : 'programs',
+    component: Programs,
+  },
+  {
+    path: 'programs/:programSlug/categories/:id',
+    name: localized ? 'categories-locale' : 'categories',
+    component: Categories,
+  },
+  {
+    path: 'programs/:slug/courses/:courseSlug',
+    name: localized ? 'course-detail-locale' : 'course-detail',
+    component: CourseDetail,
   },
   {
     path: 'login',
