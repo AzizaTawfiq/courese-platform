@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@vee-validate/zod':
+    specifier: ^4.15.1
+    version: 4.15.1(vue@3.5.32)(zod@3.25.76)
   '@vueuse/head':
     specifier: ^2.0.0
     version: 2.0.0(vue@3.5.32)
@@ -14,6 +17,9 @@ dependencies:
   pinia:
     specifier: ^3.0.2
     version: 3.0.4(typescript@5.9.3)(vue@3.5.32)
+  vee-validate:
+    specifier: ^4.15.1
+    version: 4.15.1(vue@3.5.32)
   vue:
     specifier: ^3.5.13
     version: 3.5.32(typescript@5.9.3)
@@ -23,6 +29,9 @@ dependencies:
   vue-router:
     specifier: ^4.5.1
     version: 4.6.4(vue@3.5.32)
+  zod:
+    specifier: ^3.24.3
+    version: 3.25.76
 
 devDependencies:
   '@eslint/js':
@@ -906,6 +915,18 @@ packages:
       hookable: 5.5.3
       unhead: 1.11.20
       vue: 3.5.32(typescript@5.9.3)
+    dev: false
+
+  /@vee-validate/zod@4.15.1(vue@3.5.32)(zod@3.25.76):
+    resolution: {integrity: sha512-329Z4TDBE5Vx0FdbA8S4eR9iGCFFUNGbxjpQ20ff5b5wGueScjocUIx9JHPa79LTG06RnlUR4XogQsjN4tecKA==}
+    peerDependencies:
+      zod: ^3.24.0
+    dependencies:
+      type-fest: 4.41.0
+      vee-validate: 4.15.1(vue@3.5.32)
+      zod: 3.25.76
+    transitivePeerDependencies:
+      - vue
     dev: false
 
   /@vitejs/plugin-vue@5.2.4(vite@6.4.2)(vue@3.5.32):
@@ -2501,6 +2522,11 @@ packages:
       prelude-ls: 1.2.1
     dev: true
 
+  /type-fest@4.41.0:
+    resolution: {integrity: sha512-TeTSQ6H5YHvpqVwBRcnLDCBnDOHWYu7IvGbHT6N8AOymcr9PJGjc1GTtiWZTYg0NCgYwvnYWEkVChQAr9bjfwA==}
+    engines: {node: '>=16'}
+    dev: false
+
   /typescript-eslint@8.58.1(eslint@9.39.4)(typescript@5.9.3):
     resolution: {integrity: sha512-gf6/oHChByg9HJvhMO1iBexJh12AqqTfnuxscMDOVqfJW3htsdRJI/GfPpHTTcyeB8cSTUY2JcZmVgoyPqcrDg==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
@@ -2556,6 +2582,16 @@ packages:
   /util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
     dev: true
+
+  /vee-validate@4.15.1(vue@3.5.32):
+    resolution: {integrity: sha512-DkFsiTwEKau8VIxyZBGdO6tOudD+QoUBPuHj3e6QFqmbfCRj1ArmYWue9lEp6jLSWBIw4XPlDLjFIZNLdRAMSg==}
+    peerDependencies:
+      vue: ^3.4.26
+    dependencies:
+      '@vue/devtools-api': 7.7.9
+      type-fest: 4.41.0
+      vue: 3.5.32(typescript@5.9.3)
+    dev: false
 
   /vite@6.4.2(@types/node@22.19.17):
     resolution: {integrity: sha512-2N/55r4JDJ4gdrCvGgINMy+HH3iRpNIz8K6SFwVsA+JbQScLiC+clmAxBgwiSPgcG9U15QmvqCGWzMbqda5zGQ==}
@@ -2702,4 +2738,8 @@ packages:
 
   /zhead@2.2.4:
     resolution: {integrity: sha512-8F0OI5dpWIA5IGG5NHUg9staDwz/ZPxZtvGVf01j7vHqSyZ0raHY+78atOVxRqb73AotX22uV1pXt3gYSstGag==}
+    dev: false
+
+  /zod@3.25.76:
+    resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
     dev: false

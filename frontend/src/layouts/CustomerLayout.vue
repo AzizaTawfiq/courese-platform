@@ -10,7 +10,7 @@
         <button
           class="rounded-full border border-white/40 px-4 py-2 text-sm"
           type="button"
-          @click="authStore.logout"
+          @click="handleLogout"
         >
           {{ t('auth.logout') }}
         </button>
@@ -26,6 +26,7 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { RouterLink, RouterView, useRoute } from 'vue-router';
+import { authService } from '@/shared/services/authService';
 import { useAuthStore } from '@/shared/stores/auth';
 
 const route = useRoute();
@@ -34,4 +35,14 @@ const authStore = useAuthStore();
 const localePrefix = computed(() =>
   route.params.locale === 'en' ? '/en' : '',
 );
+
+const handleLogout = async () => {
+  try {
+    await authService.logout();
+  } catch {
+    // Keep the local logout path responsive even if the API is unavailable.
+  }
+
+  await authStore.logout();
+};
 </script>

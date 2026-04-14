@@ -1,6 +1,7 @@
 import type { NextFunction, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import type { AuthenticatedRequest, AuthenticatedUser } from '../types.js';
+import { authConfig } from '../modules/auth/auth.config.js';
 
 export const authMiddleware = (
   req: AuthenticatedRequest,
@@ -19,7 +20,7 @@ export const authMiddleware = (
   try {
     const payload = jwt.verify(
       token,
-      process.env.JWT_ACCESS_SECRET ?? 'dev-secret',
+      authConfig.accessTokenSecret,
     ) as AuthenticatedUser;
     req.user = payload;
     next();

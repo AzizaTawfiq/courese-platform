@@ -2,23 +2,14 @@ import { ref } from 'vue';
 import { defineStore } from 'pinia';
 import router from '@/router';
 import { useUIStore } from '@/shared/stores/ui';
-
-export type UserRole = 'CUSTOMER' | 'ADMIN' | 'SUPER_ADMIN' | null;
-
-export interface AuthUser {
-  id: string;
-  fullName: string;
-  email: string;
-  companyName?: string;
-  role: Exclude<UserRole, null>;
-}
+import type { User, UserRole } from '@/shared/types/auth';
 
 export const useAuthStore = defineStore('auth', () => {
   const accessToken = ref<string | null>(null);
-  const user = ref<AuthUser | null>(null);
-  const role = ref<UserRole>(null);
+  const user = ref<User | null>(null);
+  const role = ref<UserRole | null>(null);
 
-  const setSession = (token: string, authUser: AuthUser) => {
+  const setSession = (token: string, authUser: User) => {
     accessToken.value = token;
     user.value = authUser;
     role.value = authUser.role;

@@ -1,58 +1,13 @@
-/* eslint-disable vue/one-component-per-file */
-import { defineComponent, h } from 'vue';
-import { useI18n } from 'vue-i18n';
 import type { RouteRecordRaw } from 'vue-router';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 import CustomerLayout from '@/layouts/CustomerLayout.vue';
 import Categories from './views/Categories.vue';
 import CourseDetail from './views/CourseDetail.vue';
 import CustomerHome from './views/CustomerHome.vue';
+import Dashboard from './views/Dashboard.vue';
+import Login from './views/Login.vue';
 import Programs from './views/Programs.vue';
-
-const loginView = defineComponent({
-  name: 'CustomerLoginPlaceholder',
-  setup() {
-    const { t } = useI18n();
-    return () =>
-      h('section', { class: 'mx-auto max-w-3xl px-6 py-16' }, [
-        h(
-          'h1',
-          { class: 'text-3xl font-semibold text-brand-900' },
-          t('auth.login'),
-        ),
-      ]);
-  },
-});
-
-const registerView = defineComponent({
-  name: 'CustomerRegisterPlaceholder',
-  setup() {
-    const { t } = useI18n();
-    return () =>
-      h('section', { class: 'mx-auto max-w-3xl px-6 py-16' }, [
-        h(
-          'h1',
-          { class: 'text-3xl font-semibold text-brand-900' },
-          t('auth.register'),
-        ),
-      ]);
-  },
-});
-
-const dashboardView = defineComponent({
-  name: 'CustomerDashboardPlaceholder',
-  setup() {
-    const { t } = useI18n();
-    return () =>
-      h('section', { class: 'mx-auto max-w-4xl px-6 py-16' }, [
-        h(
-          'h1',
-          { class: 'text-3xl font-semibold text-brand-900' },
-          t('dashboard.title'),
-        ),
-      ]);
-  },
-});
+import Register from './views/Register.vue';
 
 const publicChildren = (localized: boolean): RouteRecordRaw[] => [
   {
@@ -78,12 +33,12 @@ const publicChildren = (localized: boolean): RouteRecordRaw[] => [
   {
     path: 'login',
     name: localized ? 'login-locale' : 'login',
-    component: loginView,
+    component: Login,
   },
   {
     path: 'register',
     name: localized ? 'register-locale' : 'register',
-    component: registerView,
+    component: Register,
   },
 ];
 
@@ -92,7 +47,7 @@ const customerChildren = (localized: boolean): RouteRecordRaw[] => [
     path: 'dashboard',
     name: localized ? 'dashboard-locale' : 'dashboard',
     meta: { requiresAuth: true },
-    component: dashboardView,
+    component: Dashboard,
   },
 ];
 

@@ -146,20 +146,20 @@ layer, auth middleware, shared composables, Pinia stores, and routing skeleton.
 
 ### Backend — US3
 
-- [ ] T064 [P] [US3] Create auth Zod schemas in `backend/src/modules/auth/auth.schema.ts` — `registerSchema` (fullName min 2, companyName min 2, email, password min 8), `loginSchema`
-- [ ] T065 [US3] Implement `auth.service.ts` in `backend/src/modules/auth/auth.service.ts` — `register()` (bcrypt 12 rounds, create User + RefreshToken, return accessToken + user), `login()` (compare hash, rotate token), `refresh()` (verify SHA-256 hash in DB, issue new token pair), `logout()` (revoke RefreshToken), `me()` (return user from DB)
-- [ ] T066 [US3] Implement `auth.controller.ts` in `backend/src/modules/auth/auth.controller.ts` — handlers for `POST /register` (201), `POST /login` (200), `POST /refresh` (200), `POST /logout` (204), `GET /me` (200); set/clear `__rt` HttpOnly cookie on appropriate endpoints
-- [ ] T067 [US3] Create `auth.routes.ts` in `backend/src/modules/auth/auth.routes.ts` — apply `rateLimiter` to register + login + refresh; register under `/api/v1/auth` in routes index
+- [X] T064 [P] [US3] Create auth Zod schemas in `backend/src/modules/auth/auth.schema.ts` — `registerSchema` (fullName min 2, companyName min 2, email, password min 8), `loginSchema`
+- [X] T065 [US3] Implement `auth.service.ts` in `backend/src/modules/auth/auth.service.ts` — `register()` (bcrypt 12 rounds, create User + RefreshToken, return accessToken + user), `login()` (compare hash, rotate token), `refresh()` (verify SHA-256 hash in DB, issue new token pair), `logout()` (revoke RefreshToken), `me()` (return user from DB)
+- [X] T066 [US3] Implement `auth.controller.ts` in `backend/src/modules/auth/auth.controller.ts` — handlers for `POST /register` (201), `POST /login` (200), `POST /refresh` (200), `POST /logout` (204), `GET /me` (200); set/clear `__rt` HttpOnly cookie on appropriate endpoints
+- [X] T067 [US3] Create `auth.routes.ts` in `backend/src/modules/auth/auth.routes.ts` — apply `rateLimiter` to register + login + refresh; register under `/api/v1/auth` in routes index
 
 ### Frontend — US3
 
-- [ ] T068 [P] [US3] Add auth locale keys to `frontend/src/locales/ar.json` and `frontend/src/locales/en.json` — labels for full name, company name, email, password, "Register", "Login", "Logout", error messages, "Email already registered"
-- [ ] T069 [P] [US3] Define `User`, `AuthResponse`, `RegisterPayload`, `LoginPayload` interfaces in `frontend/src/shared/types/auth.ts`
-- [ ] T070 [P] [US3] Implement `authService.ts` in `frontend/src/shared/services/authService.ts` — typed `register()`, `login()`, `refresh()`, `logout()`, `me()` wrapping the Axios instance; `refresh` is called by the Axios interceptor in `api.ts`
-- [ ] T071 [US3] Create `Register.vue` in `frontend/src/modules/customer/views/Register.vue` — VeeValidate + Zod resolver (`registerSchema` mirroring backend); fields: fullName, companyName, email, password; on success stores token in `useAuthStore`, navigates to `/dashboard`; shows 409 inline email-taken error
-- [ ] T072 [US3] Create `Login.vue` in `frontend/src/modules/customer/views/Login.vue` — VeeValidate + Zod resolver (`loginSchema`); on success stores token + user in `useAuthStore`, navigates to `/dashboard`; 401 shows generic "Invalid credentials" message (no field hint)
-- [ ] T073 [US3] Create `Dashboard.vue` in `frontend/src/modules/customer/views/Dashboard.vue` — displays user greeting (name, company); shows empty state for bookings ("No bookings yet" with CTA to browse courses); wired to `useBookingsStore` (populated in US4)
-- [ ] T074 [US3] Update `frontend/src/modules/customer/routes.ts` to add `/register` and `/login` under `PublicLayout`; add `/dashboard` under `CustomerLayout` with navigation guard redirecting to `/login` if `useAuthStore.accessToken` is null
+- [X] T068 [P] [US3] Add auth locale keys to `frontend/src/locales/ar.json` and `frontend/src/locales/en.json` — labels for full name, company name, email, password, "Register", "Login", "Logout", error messages, "Email already registered"
+- [X] T069 [P] [US3] Define `User`, `AuthResponse`, `RegisterPayload`, `LoginPayload` interfaces in `frontend/src/shared/types/auth.ts`
+- [X] T070 [P] [US3] Implement `authService.ts` in `frontend/src/shared/services/authService.ts` — typed `register()`, `login()`, `refresh()`, `logout()`, `me()` wrapping the Axios instance; `refresh` is called by the Axios interceptor in `api.ts`
+- [X] T071 [US3] Create `Register.vue` in `frontend/src/modules/customer/views/Register.vue` — VeeValidate + Zod resolver (`registerSchema` mirroring backend); fields: fullName, companyName, email, password; on success stores token in `useAuthStore`, navigates to `/dashboard`; shows 409 inline email-taken error
+- [X] T072 [US3] Create `Login.vue` in `frontend/src/modules/customer/views/Login.vue` — VeeValidate + Zod resolver (`loginSchema`); on success stores token + user in `useAuthStore`, navigates to `/dashboard`; 401 shows generic "Invalid credentials" message (no field hint)
+- [X] T073 [US3] Create `Dashboard.vue` in `frontend/src/modules/customer/views/Dashboard.vue` — displays user greeting (name, company); shows empty state for bookings ("No bookings yet" with CTA to browse courses); wired to `useBookingsStore` (populated in US4)
+- [X] T074 [US3] Update `frontend/src/modules/customer/routes.ts` to add `/register` and `/login` under `PublicLayout`; add `/dashboard` under `CustomerLayout` with navigation guard redirecting to `/login` if `useAuthStore.accessToken` is null
 
 **Checkpoint**: US3 done — full registration + login + dashboard flow works independently; admin login at `/admin/login` also functional via AdminLogin.vue (see US5)
 

@@ -1,8 +1,19 @@
 const getApiBaseUrl = () => {
   const configuredBaseUrl = import.meta.env.VITE_API_BASE_URL ?? '/api/v1';
-  return configuredBaseUrl.endsWith('/')
+  const normalizedBaseUrl = configuredBaseUrl.endsWith('/')
     ? configuredBaseUrl
     : `${configuredBaseUrl}/`;
+
+  if (/^https?:\/\//i.test(normalizedBaseUrl)) {
+    return normalizedBaseUrl;
+  }
+
+  return new URL(
+    normalizedBaseUrl.replace(/^\//, ''),
+    globalThis.location.origin.endsWith('/')
+      ? globalThis.location.origin
+      : `${globalThis.location.origin}/`,
+  ).toString();
 };
 
 const resolveApiUrl = (path: string) =>

@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import { authService } from '@/shared/services/authService';
 import { useAuthStore } from '@/shared/stores/auth';
 import { useUIStore } from '@/shared/stores/ui';
 import { customerRoutes } from '@/modules/customer/routes';
@@ -20,9 +21,15 @@ router.beforeEach(async (to) => {
   uiStore.locale = locale;
 
   if (requiresAuth && !authStore.accessToken) {
-    return to.path.startsWith('/admin')
-      ? '/admin/login'
-      : `${localePrefix}/login`;
+    try {
+      const refreshResponse = await authService.refresh();
+      const currentUser = await authService.me(refreshResponse.accessToken);
+      authStore.setSession(refreshResponse.accessToken, currentUser);
+    } catch {
+      return to.path.startsWith('/admin')
+        ? '/admin/login'
+        : `${localePrefix}/login`;
+    }
   }
 
   if (

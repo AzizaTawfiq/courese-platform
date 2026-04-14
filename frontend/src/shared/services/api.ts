@@ -28,12 +28,17 @@ api.interceptors.response.use(
       error.response?.status === 401 &&
       originalRequest &&
       !requestUrl.includes('/auth/refresh') &&
+      !requestUrl.includes('/auth/login') &&
+      !requestUrl.includes('/auth/register') &&
+      !requestUrl.includes('/auth/logout') &&
       !originalRequest._retry
     ) {
       originalRequest._retry = true;
 
       try {
-        const refreshResponse = await api.post('/auth/refresh');
+        const refreshResponse = await api.post<{ accessToken: string }>(
+          '/auth/refresh',
+        );
         authStore.accessToken = refreshResponse.data.accessToken;
         originalRequest.headers = originalRequest.headers ?? {};
         originalRequest.headers.Authorization = `Bearer ${refreshResponse.data.accessToken}`;
