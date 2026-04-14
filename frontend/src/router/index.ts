@@ -20,7 +20,9 @@ router.beforeEach(async (to) => {
   uiStore.locale = locale;
 
   if (requiresAuth && !authStore.accessToken) {
-    return to.path.startsWith('/admin') ? '/admin/login' : `${localePrefix}/login`;
+    return to.path.startsWith('/admin')
+      ? '/admin/login'
+      : `${localePrefix}/login`;
   }
 
   if (

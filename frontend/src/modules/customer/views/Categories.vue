@@ -20,7 +20,9 @@
         <h2 class="text-2xl font-semibold text-brand-900">
           {{ t('catalog.category.coursesHeading') }}
         </h2>
-        <span class="rounded-full bg-white px-4 py-2 text-sm text-brand-600 ring-1 ring-brand-100">
+        <span
+          class="rounded-full bg-white px-4 py-2 text-sm text-brand-600 ring-1 ring-brand-100"
+        >
           {{ category.courses.length }} {{ t('catalog.program.coursesCount') }}
         </span>
       </div>
@@ -41,16 +43,24 @@
                 {{ locale === 'ar' ? course.nameAr : course.nameEn }}
               </h3>
               <p class="mt-3 text-brand-700">
-                {{ locale === 'ar' ? course.descriptionAr : course.descriptionEn }}
+                {{
+                  locale === 'ar' ? course.descriptionAr : course.descriptionEn
+                }}
               </p>
             </div>
-            <span class="rounded-full bg-brand-50 px-3 py-1 text-xs font-medium text-brand-700">
-              {{ course.upcomingScheduleCount }} {{ t('catalog.availableDates') }}
+            <span
+              class="rounded-full bg-brand-50 px-3 py-1 text-xs font-medium text-brand-700"
+            >
+              {{ course.upcomingScheduleCount }}
+              {{ t('catalog.availableDates') }}
             </span>
           </div>
           <div class="mt-5 flex flex-wrap gap-4 text-sm text-brand-600">
             <span>{{ t('catalog.duration') }}: {{ course.durationHours }}</span>
-            <span>{{ t('catalog.price') }}: {{ course.price }} {{ course.currency }}</span>
+            <span
+              >{{ t('catalog.price') }}: {{ course.price }}
+              {{ course.currency }}</span
+            >
           </div>
         </RouterLink>
       </div>
@@ -74,6 +84,10 @@ import { useLocaleContent } from '@/shared/composables/useLocaleContent';
 import { useSeo } from '@/shared/composables/useSeo';
 import { useProgramsStore } from '@/shared/stores/programs';
 import { useUIStore } from '@/shared/stores/ui';
+
+defineOptions({
+  name: 'CategoryCatalogView',
+});
 
 const route = useRoute();
 const { t } = useI18n();

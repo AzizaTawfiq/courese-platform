@@ -31,5 +31,7 @@ import { useAuthStore } from '@/shared/stores/auth';
 const route = useRoute();
 const { t } = useI18n();
 const authStore = useAuthStore();
-const localePrefix = computed(() => (route.params.locale === 'en' ? '/en' : ''));
+const localePrefix = computed(() =>
+  route.params.locale === 'en' ? '/en' : '',
+);
 </script>

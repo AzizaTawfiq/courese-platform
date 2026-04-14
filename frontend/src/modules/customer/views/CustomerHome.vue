@@ -12,23 +12,24 @@
       </p>
     </div>
 
-    <div
-      class="mt-8 rounded-3xl border border-dashed border-brand-200 bg-brand-50/70 p-5 text-sm text-brand-700"
-    >
-      {{ t('catalog.scheduleBannerPlaceholder') }}
-    </div>
+    <ScheduleBanner />
 
     <div class="mt-10 flex items-center justify-between gap-4">
       <div>
-        <p class="text-sm font-medium uppercase tracking-[0.24em] text-brand-500">
+        <p
+          class="text-sm font-medium uppercase tracking-[0.24em] text-brand-500"
+        >
           {{ t('catalog.programsLabel') }}
         </p>
         <h2 class="mt-2 text-2xl font-semibold text-brand-900">
           {{ t('catalog.home.programsHeading') }}
         </h2>
       </div>
-      <span class="rounded-full bg-white px-4 py-2 text-sm text-brand-600 ring-1 ring-brand-100">
-        {{ programsStore.programs.length }} {{ t('catalog.home.availablePrograms') }}
+      <span
+        class="rounded-full bg-white px-4 py-2 text-sm text-brand-600 ring-1 ring-brand-100"
+      >
+        {{ programsStore.programs.length }}
+        {{ t('catalog.home.availablePrograms') }}
       </span>
     </div>
 
@@ -51,7 +52,9 @@
         <p class="mt-3 line-clamp-3 text-brand-700">
           {{ getLocalizedProgramDescription(program) }}
         </p>
-        <span class="mt-6 inline-flex items-center text-sm font-medium text-brand-700">
+        <span
+          class="mt-6 inline-flex items-center text-sm font-medium text-brand-700"
+        >
           {{ t('catalog.home.exploreProgram') }}
         </span>
       </RouterLink>
@@ -71,6 +74,7 @@ import { computed, onMounted } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useI18n } from 'vue-i18n';
 import { RouterLink } from 'vue-router';
+import ScheduleBanner from '@/modules/customer/components/ScheduleBanner.vue';
 import { useSeo } from '@/shared/composables/useSeo';
 import { useProgramsStore } from '@/shared/stores/programs';
 import { useUIStore } from '@/shared/stores/ui';

@@ -11,7 +11,13 @@
     "availableSeats": "Available Seats",
     "noCourses": "No courses available right now.",
     "noUpcomingDates": "No Upcoming Dates",
-    "scheduleBannerPlaceholder": "Schedule file banner will appear here once the public download flow is ready.",
+    "scheduleBanner": {
+      "eyebrow": "Training Schedule",
+      "title": "Download the latest public training schedule",
+      "description": "Get the newest PDF or spreadsheet schedule with upcoming sessions, dates, and delivery locations.",
+      "cta": "Download Schedule",
+      "unavailable": "The latest training schedule will be published here soon."
+    },
     "home": {
       "eyebrow": "Corporate Training Platform",
       "title": "Training programs built for ambitious teams",

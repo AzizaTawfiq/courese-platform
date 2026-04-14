@@ -57,7 +57,8 @@
               {{ t('catalog.availableSeats') }}: {{ schedule.availableSeats }}
             </span>
             <span class="rounded-full bg-brand-50 px-3 py-1">
-              {{ t('catalog.course.confirmedBookings') }}: {{ schedule.confirmedBookings }}
+              {{ t('catalog.course.confirmedBookings') }}:
+              {{ schedule.confirmedBookings }}
             </span>
           </div>
         </article>

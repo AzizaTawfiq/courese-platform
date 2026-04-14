@@ -125,14 +125,14 @@ layer, auth middleware, shared composables, Pinia stores, and routing skeleton.
 
 ### Backend — US2
 
-- [ ] T059 [US2] Implement `upload.service.ts` in `backend/src/services/upload.service.ts` — Multer `diskStorage` config; accepts `application/pdf`, `application/vnd.ms-excel`, `application/vnd.openxmlformats-officedocument.spreadsheetml.sheet`; max 10 MB; saves to `UPLOAD_DIR/schedule-files/` with timestamped filename
-- [ ] T060 [US2] Implement `GET /api/v1/schedule-file/download` endpoint in `backend/src/modules/admin/admin.controller.ts` + `admin.routes.ts` — queries latest `ScheduleFile` record by `createdAt DESC`; returns 302 redirect to `fileUrl`; returns 404 if no record exists; no auth required
+- [X] T059 [US2] Implement `upload.service.ts` in `backend/src/services/upload.service.ts` — Multer `diskStorage` config; accepts `application/pdf`, `application/vnd.ms-excel`, `application/vnd.openxmlformats-officedocument.spreadsheetml.sheet`; max 10 MB; saves to `UPLOAD_DIR/schedule-files/` with timestamped filename
+- [X] T060 [US2] Implement `GET /api/v1/schedule-file/download` endpoint in `backend/src/modules/admin/admin.controller.ts` + `admin.routes.ts` — queries latest `ScheduleFile` record by `createdAt DESC`; returns 302 redirect to `fileUrl`; returns 404 if no record exists; no auth required
 
 ### Frontend — US2
 
-- [ ] T061 [US2] Add schedule-file service method `getScheduleFileDownloadUrl()` in `frontend/src/shared/services/adminService.ts` — calls `GET /api/v1/schedule-file/download` and returns resolved URL (or null on 404)
-- [ ] T062 [US2] Create `ScheduleBanner.vue` in `frontend/src/modules/customer/components/ScheduleBanner.vue` — on mount checks if download URL exists; if yes shows banner image as `<a>` download link; if no shows nothing (or locale-keyed "Schedule coming soon" message)
-- [ ] T063 [US2] Integrate `ScheduleBanner.vue` into `CustomerHome.vue` — renders below the hero section
+- [X] T061 [US2] Add schedule-file service method `getScheduleFileDownloadUrl()` in `frontend/src/shared/services/adminService.ts` — calls `GET /api/v1/schedule-file/download` and returns resolved URL (or null on 404)
+- [X] T062 [US2] Create `ScheduleBanner.vue` in `frontend/src/modules/customer/components/ScheduleBanner.vue` — on mount checks if download URL exists; if yes shows banner image as `<a>` download link; if no shows nothing (or locale-keyed "Schedule coming soon" message)
+- [X] T063 [US2] Integrate `ScheduleBanner.vue` into `CustomerHome.vue` — renders below the hero section
 
 **Checkpoint**: US2 done — banner visible when file exists; download works for anonymous users
 

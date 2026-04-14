@@ -34,7 +34,10 @@ export const useProgramsStore = defineStore('programs', () => {
     currentCategory.value = null;
 
     try {
-      currentCategory.value = await programsService.getCategory(programSlug, id);
+      currentCategory.value = await programsService.getCategory(
+        programSlug,
+        id,
+      );
       return currentCategory.value;
     } catch (error) {
       currentCategory.value = null;

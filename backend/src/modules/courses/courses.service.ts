@@ -64,10 +64,14 @@ export const listCourses = async (filters: ListCourseFilters) => {
 
   const where = {
     isActive: true,
+    category: {
+      isActive: true,
+      program: {
+        isActive: true,
+        ...(filters.programSlug ? { slug: filters.programSlug } : {}),
+      },
+    },
     ...(filters.categoryId ? { categoryId: filters.categoryId } : {}),
-    ...(filters.programSlug
-      ? { category: { program: { slug: filters.programSlug, isActive: true } } }
-      : {}),
   };
 
   const [total, courses] = await Promise.all([

@@ -11,9 +11,11 @@
         >
         <div class="flex items-center gap-3 text-sm">
           <LanguageSwitcher />
-          <RouterLink class="hover:text-brand-500" :to="`${localePrefix}/login`">{{
-            t('auth.login')
-          }}</RouterLink>
+          <RouterLink
+            class="hover:text-brand-500"
+            :to="`${localePrefix}/login`"
+            >{{ t('auth.login') }}</RouterLink
+          >
           <RouterLink
             class="rounded-full bg-brand-700 px-4 py-2 text-white"
             :to="`${localePrefix}/register`"

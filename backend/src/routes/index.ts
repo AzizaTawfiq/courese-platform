@@ -19,7 +19,7 @@ apiRouter.use('/programs/:programSlug/categories', categoriesRouter);
 apiRouter.use('/courses', coursesRouter);
 apiRouter.use('/purchases', purchasesRouter);
 apiRouter.use('/bookings', bookingsRouter);
-apiRouter.use('/admin', adminRouter);
+apiRouter.use('/', adminRouter);
 apiRouter.use('/admin/schedules', schedulesRouter);
 
 rootRouter.get('/sitemap.xml', async (_req, res) => {

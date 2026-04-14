@@ -20,8 +20,11 @@
         <h2 class="text-2xl font-semibold text-brand-900">
           {{ t('catalog.program.categoriesHeading') }}
         </h2>
-        <span class="rounded-full bg-white px-4 py-2 text-sm text-brand-600 ring-1 ring-brand-100">
-          {{ program.categories.length }} {{ t('catalog.program.categoriesCount') }}
+        <span
+          class="rounded-full bg-white px-4 py-2 text-sm text-brand-600 ring-1 ring-brand-100"
+        >
+          {{ program.categories.length }}
+          {{ t('catalog.program.categoriesCount') }}
         </span>
       </div>
 
@@ -42,7 +45,9 @@
             {{ locale === 'ar' ? category.nameAr : category.nameEn }}
           </h3>
           <p class="mt-3 text-brand-700">
-            {{ locale === 'ar' ? category.descriptionAr : category.descriptionEn }}
+            {{
+              locale === 'ar' ? category.descriptionAr : category.descriptionEn
+            }}
           </p>
         </RouterLink>
       </div>
@@ -66,6 +71,10 @@ import { useLocaleContent } from '@/shared/composables/useLocaleContent';
 import { useSeo } from '@/shared/composables/useSeo';
 import { useProgramsStore } from '@/shared/stores/programs';
 import { useUIStore } from '@/shared/stores/ui';
+
+defineOptions({
+  name: 'ProgramCatalogView',
+});
 
 const route = useRoute();
 const { t } = useI18n();

@@ -19,8 +19,16 @@ const router = useRouter();
 
 const localizedPath = computed(() => {
   const currentPath = route.path;
-  const pathWithoutLocale = currentPath.replace(/^\/(ar|en)(?=\/|$)/, '') || '/';
-  return uiStore.locale === 'ar' ? `/en${pathWithoutLocale === '/' ? '' : pathWithoutLocale}` : pathWithoutLocale;
+
+  if (currentPath.startsWith('/admin')) {
+    return currentPath;
+  }
+
+  const pathWithoutLocale =
+    currentPath.replace(/^\/(ar|en)(?=\/|$)/, '') || '/';
+  return uiStore.locale === 'ar'
+    ? `/en${pathWithoutLocale === '/' ? '' : pathWithoutLocale}`
+    : pathWithoutLocale;
 });
 
 const toggleLocale = async () => {
