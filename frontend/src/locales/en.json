@@ -50,6 +50,19 @@
       "seoFallbackDescription": "Explore course outcomes, pricing, and upcoming schedule dates."
     }
   },
+  "booking": {
+    "title": "Complete your booking",
+    "selectDate": "Select Date",
+    "fullyBooked": "Fully Booked",
+    "proceed": "Proceed to Checkout",
+    "confirmed": "Booking Confirmed",
+    "reference": "Booking Reference",
+    "viewDashboard": "View Dashboard",
+    "checkoutHint": "Review your selected schedule and continue to the simulated checkout flow.",
+    "simulatePayment": "Simulate Payment Success",
+    "paymentIntent": "Payment Intent",
+    "error": "We could not complete your booking. Please try again."
+  },
   "auth": {
     "login": "Login",
     "register": "Register",
@@ -86,6 +99,10 @@
     "bookingsTitle": "Your bookings",
     "bookingsDescription": "Track the courses your team has booked and revisit upcoming sessions.",
     "noBookings": "No bookings yet.",
-    "browseCourses": "Browse courses"
+    "browseCourses": "Browse courses",
+    "reference": "Reference",
+    "course": "Course",
+    "startDate": "Start Date",
+    "status": "Status"
   }
 }

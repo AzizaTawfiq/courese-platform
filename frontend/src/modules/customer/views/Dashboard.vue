@@ -38,16 +38,62 @@
           {{ t('dashboard.browseCourses') }}
         </RouterLink>
       </div>
+
+      <div
+        v-else
+        class="mt-6 overflow-hidden rounded-[1.5rem] ring-1 ring-brand-100"
+      >
+        <table class="min-w-full divide-y divide-brand-100 text-sm">
+          <thead class="bg-brand-50/80 text-brand-700">
+            <tr>
+              <th class="px-4 py-3 text-start font-semibold">
+                {{ t('dashboard.reference') }}
+              </th>
+              <th class="px-4 py-3 text-start font-semibold">
+                {{ t('dashboard.course') }}
+              </th>
+              <th class="px-4 py-3 text-start font-semibold">
+                {{ t('dashboard.startDate') }}
+              </th>
+              <th class="px-4 py-3 text-start font-semibold">
+                {{ t('dashboard.status') }}
+              </th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-brand-100 bg-white">
+            <tr v-for="booking in bookingsStore.bookings" :key="booking.id">
+              <td class="px-4 py-4 font-medium text-brand-900">
+                {{ booking.reference }}
+              </td>
+              <td class="px-4 py-4 text-brand-700">
+                {{
+                  locale === 'ar' ? booking.courseNameAr : booking.courseNameEn
+                }}
+              </td>
+              <td class="px-4 py-4 text-brand-700">
+                {{ formatDate(booking.scheduleStartDate) }}
+              </td>
+              <td class="px-4 py-4">
+                <span class="rounded-full bg-brand-50 px-3 py-1 text-brand-800">
+                  {{ booking.status }}
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
 import { computed, onMounted } from 'vue';
+import { storeToRefs } from 'pinia';
 import { useI18n } from 'vue-i18n';
 import { RouterLink, useRoute } from 'vue-router';
 import { useAuthStore } from '@/shared/stores/auth';
 import { useBookingsStore } from '@/shared/stores/bookings';
+import { useUIStore } from '@/shared/stores/ui';
 
 defineOptions({
   name: 'CustomerDashboardView',
@@ -57,9 +103,16 @@ const { t } = useI18n();
 const route = useRoute();
 const authStore = useAuthStore();
 const bookingsStore = useBookingsStore();
+const uiStore = useUIStore();
+const { locale } = storeToRefs(uiStore);
 const localePrefix = computed(() =>
   route.params.locale === 'en' ? '/en' : '',
 );
+
+const formatDate = (value: string) =>
+  new Intl.DateTimeFormat(locale.value === 'ar' ? 'ar-EG' : 'en-US', {
+    dateStyle: 'medium',
+  }).format(new Date(value));
 
 onMounted(async () => {
   await bookingsStore.fetchBookings();

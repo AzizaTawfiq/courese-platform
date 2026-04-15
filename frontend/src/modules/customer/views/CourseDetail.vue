@@ -29,12 +29,14 @@
         <h2 class="text-2xl font-semibold text-brand-900">
           {{ t('catalog.availableDates') }}
         </h2>
-        <RouterLink
-          class="rounded-full bg-brand-700 px-5 py-3 text-sm font-medium text-white"
-          :to="`${localePrefix}/login`"
+        <button
+          class="rounded-full bg-brand-700 px-5 py-3 text-sm font-medium text-white disabled:cursor-not-allowed disabled:bg-brand-300"
+          type="button"
+          :disabled="!selectedSchedule || selectedSchedule.availableSeats === 0"
+          @click="handleBookNow"
         >
           {{ t('catalog.bookNow') }}
-        </RouterLink>
+        </button>
       </div>
 
       <div
@@ -44,14 +46,29 @@
         <article
           v-for="schedule in course.schedules"
           :key="schedule.id"
-          class="rounded-[1.5rem] bg-white p-6 shadow-sm ring-1 ring-brand-100"
+          :class="[
+            'rounded-[1.5rem] bg-white p-6 shadow-sm ring-1 transition',
+            selectedScheduleId === schedule.id
+              ? 'ring-2 ring-brand-500'
+              : 'ring-brand-100',
+          ]"
         >
-          <h3 class="text-lg font-semibold text-brand-900">
-            {{ formatDateRange(schedule.startDate, schedule.endDate) }}
-          </h3>
-          <p class="mt-3 text-brand-700">
-            {{ schedule.location || t('catalog.course.onlineLocation') }}
-          </p>
+          <div class="flex items-start justify-between gap-4">
+            <div>
+              <h3 class="text-lg font-semibold text-brand-900">
+                {{ formatDateRange(schedule.startDate, schedule.endDate) }}
+              </h3>
+              <p class="mt-3 text-brand-700">
+                {{ schedule.location || t('catalog.course.onlineLocation') }}
+              </p>
+            </div>
+            <span
+              v-if="schedule.availableSeats === 0"
+              class="rounded-full bg-red-50 px-3 py-1 text-xs font-semibold text-red-600"
+            >
+              {{ t('booking.fullyBooked') }}
+            </span>
+          </div>
           <div class="mt-4 flex flex-wrap gap-3 text-sm text-brand-600">
             <span class="rounded-full bg-brand-50 px-3 py-1">
               {{ t('catalog.availableSeats') }}: {{ schedule.availableSeats }}
@@ -61,6 +78,14 @@
               {{ schedule.confirmedBookings }}
             </span>
           </div>
+          <button
+            class="mt-5 rounded-full border border-brand-200 px-4 py-2 text-sm font-medium text-brand-800 disabled:cursor-not-allowed disabled:border-brand-100 disabled:text-brand-300"
+            type="button"
+            :disabled="schedule.availableSeats === 0"
+            @click="selectedScheduleId = schedule.id"
+          >
+            {{ t('booking.selectDate') }}
+          </button>
         </article>
       </div>
 
@@ -75,27 +100,40 @@
 </template>
 
 <script setup lang="ts">
-import { computed, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useI18n } from 'vue-i18n';
-import { RouterLink, useRoute, useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useLocaleContent } from '@/shared/composables/useLocaleContent';
 import { useSeo } from '@/shared/composables/useSeo';
+import { useAuthStore } from '@/shared/stores/auth';
+import { useBookingsStore } from '@/shared/stores/bookings';
 import { useCoursesStore } from '@/shared/stores/courses';
 import { useUIStore } from '@/shared/stores/ui';
 
 const route = useRoute();
 const router = useRouter();
 const { t } = useI18n();
+const authStore = useAuthStore();
+const bookingsStore = useBookingsStore();
 const coursesStore = useCoursesStore();
 const uiStore = useUIStore();
 const { locale } = storeToRefs(uiStore);
 const { currentCourse } = storeToRefs(coursesStore);
 const localePrefix = computed(() => (locale.value === 'en' ? '/en' : ''));
+const selectedScheduleId = ref('');
 
 const course = currentCourse;
 const localizedName = useLocaleContent(course, 'name');
 const localizedDescription = useLocaleContent(course, 'description');
+const selectedSchedule = computed(
+  () =>
+    course.value?.schedules.find(
+      (schedule) => schedule.id === selectedScheduleId.value,
+    ) ??
+    course.value?.schedules.find((schedule) => schedule.availableSeats > 0) ??
+    null,
+);
 
 const formatDateRange = (startDate: string, endDate: string) => {
   const formatter = new Intl.DateTimeFormat(
@@ -105,6 +143,35 @@ const formatDateRange = (startDate: string, endDate: string) => {
     },
   );
   return `${formatter.format(new Date(startDate))} - ${formatter.format(new Date(endDate))}`;
+};
+
+const handleBookNow = async () => {
+  if (!course.value || !selectedSchedule.value) {
+    return;
+  }
+
+  if (!authStore.accessToken) {
+    await router.push(`${localePrefix.value}/login`);
+    return;
+  }
+
+  bookingsStore.setSelectedSchedule({
+    scheduleId: selectedSchedule.value.id,
+    courseSlug: course.value.slug,
+    courseNameAr: course.value.nameAr,
+    courseNameEn: course.value.nameEn,
+    startDate: selectedSchedule.value.startDate,
+    endDate: selectedSchedule.value.endDate,
+    location: selectedSchedule.value.location,
+    availableSeats: selectedSchedule.value.availableSeats,
+    price: course.value.price,
+    currency: course.value.currency,
+  });
+  bookingsStore.setActiveBooking(null);
+
+  await router.push(
+    `${localePrefix.value}/booking/${selectedSchedule.value.id}?courseSlug=${course.value.slug}`,
+  );
 };
 
 useSeo({
@@ -158,6 +225,9 @@ watch(
 
     try {
       const loadedCourse = await coursesStore.fetchCourse(courseSlug);
+      selectedScheduleId.value =
+        loadedCourse?.schedules.find((schedule) => schedule.availableSeats > 0)
+          ?.id ?? '';
 
       if (
         loadedCourse &&

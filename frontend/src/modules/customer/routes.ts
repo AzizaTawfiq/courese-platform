@@ -2,6 +2,7 @@ import type { RouteRecordRaw } from 'vue-router';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 import CustomerLayout from '@/layouts/CustomerLayout.vue';
 import Categories from './views/Categories.vue';
+import Booking from './views/Booking.vue';
 import CourseDetail from './views/CourseDetail.vue';
 import CustomerHome from './views/CustomerHome.vue';
 import Dashboard from './views/Dashboard.vue';
@@ -48,6 +49,12 @@ const customerChildren = (localized: boolean): RouteRecordRaw[] => [
     name: localized ? 'dashboard-locale' : 'dashboard',
     meta: { requiresAuth: true },
     component: Dashboard,
+  },
+  {
+    path: 'booking/:scheduleId',
+    name: localized ? 'booking-locale' : 'booking',
+    meta: { requiresAuth: true },
+    component: Booking,
   },
 ];
 

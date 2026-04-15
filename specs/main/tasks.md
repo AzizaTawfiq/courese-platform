@@ -173,23 +173,23 @@ layer, auth middleware, shared composables, Pinia stores, and routing skeleton.
 
 ### Backend — US4
 
-- [ ] T075 [P] [US4] Create purchases Zod schema in `backend/src/modules/purchases/purchases.schema.ts` — `createPurchaseSchema` (`scheduleId` cuid), webhook payload schema
-- [ ] T076 [US4] Implement `purchases.service.ts` in `backend/src/modules/purchases/purchases.service.ts` — `createPurchase(userId, scheduleId)`: checks schedule active + `availableSeats > 0` + no existing CONFIRMED booking (returns 409 on conflict); creates Purchase PENDING; returns `{ purchaseId, amount, currency, status, paymentIntent }`
-- [ ] T077 [US4] Implement purchase webhook handler in `purchases.service.ts` — on success event: set Purchase PAID, create Booking with `reference = BK-YYYYMMDD-NNNN` (auto-incremented counter), return `{ received: true }`; on failure: set Purchase FAILED
-- [ ] T078 [US4] Implement `purchases.controller.ts` and `purchases.routes.ts` in `backend/src/modules/purchases/` — `POST /api/v1/purchases` (CUSTOMER auth), `POST /api/v1/purchases/webhook` (no auth, verify signature header); register in routes index
-- [ ] T079 [P] [US4] Implement `bookings.service.ts` in `backend/src/modules/bookings/bookings.service.ts` — `listCustomerBookings(userId)` joins Schedule + Course; `getBookingByReference(ref, userId)` returns 403 if userId mismatch; `listAdminBookings(filters)` paginated
-- [ ] T080 [US4] Implement `bookings.controller.ts` and `bookings.routes.ts` in `backend/src/modules/bookings/` — `GET /api/v1/bookings` (CUSTOMER), `GET /api/v1/bookings/:reference` (CUSTOMER own or ADMIN), `GET /api/v1/admin/bookings` (ADMIN), `DELETE /api/v1/admin/bookings/:id` (ADMIN → CANCELLED); register in routes index
+- [X] T075 [P] [US4] Create purchases Zod schema in `backend/src/modules/purchases/purchases.schema.ts` — `createPurchaseSchema` (`scheduleId` cuid), webhook payload schema
+- [X] T076 [US4] Implement `purchases.service.ts` in `backend/src/modules/purchases/purchases.service.ts` — `createPurchase(userId, scheduleId)`: checks schedule active + `availableSeats > 0` + no existing CONFIRMED booking (returns 409 on conflict); creates Purchase PENDING; returns `{ purchaseId, amount, currency, status, paymentIntent }`
+- [X] T077 [US4] Implement purchase webhook handler in `purchases.service.ts` — on success event: set Purchase PAID, create Booking with `reference = BK-YYYYMMDD-NNNN` (auto-incremented counter), return `{ received: true }`; on failure: set Purchase FAILED
+- [X] T078 [US4] Implement `purchases.controller.ts` and `purchases.routes.ts` in `backend/src/modules/purchases/` — `POST /api/v1/purchases` (CUSTOMER auth), `POST /api/v1/purchases/webhook` (no auth, verify signature header); register in routes index
+- [X] T079 [P] [US4] Implement `bookings.service.ts` in `backend/src/modules/bookings/bookings.service.ts` — `listCustomerBookings(userId)` joins Schedule + Course; `getBookingByReference(ref, userId)` returns 403 if userId mismatch; `listAdminBookings(filters)` paginated
+- [X] T080 [US4] Implement `bookings.controller.ts` and `bookings.routes.ts` in `backend/src/modules/bookings/` — `GET /api/v1/bookings` (CUSTOMER), `GET /api/v1/bookings/:reference` (CUSTOMER own or ADMIN), `GET /api/v1/admin/bookings` (ADMIN), `DELETE /api/v1/admin/bookings/:id` (ADMIN → CANCELLED); register in routes index
 
 ### Frontend — US4
 
-- [ ] T081 [P] [US4] Add booking flow locale keys to `frontend/src/locales/ar.json` and `frontend/src/locales/en.json` — "Select Date", "Fully Booked", "Available Seats", "Proceed to Checkout", "Booking Confirmed", "Booking Reference", "View Dashboard", "No Upcoming Dates"
-- [ ] T082 [P] [US4] Define `Purchase`, `Booking`, `BookingStatus` interfaces in `frontend/src/shared/types/booking.ts`
-- [ ] T083 [P] [US4] Implement `bookingsService.ts` in `frontend/src/shared/services/bookingsService.ts` — typed `createPurchase(scheduleId)`, `listBookings()`, `getBooking(reference)`
-- [ ] T084 [US4] Implement `useBookingsStore` in `frontend/src/shared/stores/bookings.ts` (Composition API) — `bookings`, `fetchBookings()`, `activeBooking` (post-confirmation state)
-- [ ] T085 [US4] Update `CourseDetail.vue` — replace static schedule list with interactive slot picker; for each slot show dates, location, `availableSeats`; fully-booked slots show "Fully Booked" badge (not selectable); "Book Now" CTA redirects to `/login` if unauthenticated (via router guard), else navigates to `/booking/:scheduleId`
-- [ ] T086 [US4] Create `Booking.vue` in `frontend/src/modules/customer/views/Booking.vue` — under `CustomerLayout`; shows selected schedule summary + price; on submit calls `bookingsService.createPurchase()`; displays returned `paymentIntent` placeholder (or simulated webhook flow in dev); on booking confirmed shows confirmation panel with `reference` number and "View Dashboard" link
-- [ ] T087 [US4] Update `Dashboard.vue` to call `useBookingsStore.fetchBookings()` on mount; render booking history table with columns: Reference, Course (locale-aware), Start Date, Status; empty state if no bookings
-- [ ] T088 [US4] Add `/booking/:scheduleId` route to `frontend/src/modules/customer/routes.ts` under `CustomerLayout` with auth guard
+- [X] T081 [P] [US4] Add booking flow locale keys to `frontend/src/locales/ar.json` and `frontend/src/locales/en.json` — "Select Date", "Fully Booked", "Available Seats", "Proceed to Checkout", "Booking Confirmed", "Booking Reference", "View Dashboard", "No Upcoming Dates"
+- [X] T082 [P] [US4] Define `Purchase`, `Booking`, `BookingStatus` interfaces in `frontend/src/shared/types/booking.ts`
+- [X] T083 [P] [US4] Implement `bookingsService.ts` in `frontend/src/shared/services/bookingsService.ts` — typed `createPurchase(scheduleId)`, `listBookings()`, `getBooking(reference)`
+- [X] T084 [US4] Implement `useBookingsStore` in `frontend/src/shared/stores/bookings.ts` (Composition API) — `bookings`, `fetchBookings()`, `activeBooking` (post-confirmation state)
+- [X] T085 [US4] Update `CourseDetail.vue` — replace static schedule list with interactive slot picker; for each slot show dates, location, `availableSeats`; fully-booked slots show "Fully Booked" badge (not selectable); "Book Now" CTA redirects to `/login` if unauthenticated (via router guard), else navigates to `/booking/:scheduleId`
+- [X] T086 [US4] Create `Booking.vue` in `frontend/src/modules/customer/views/Booking.vue` — under `CustomerLayout`; shows selected schedule summary + price; on submit calls `bookingsService.createPurchase()`; displays returned `paymentIntent` placeholder (or simulated webhook flow in dev); on booking confirmed shows confirmation panel with `reference` number and "View Dashboard" link
+- [X] T087 [US4] Update `Dashboard.vue` to call `useBookingsStore.fetchBookings()` on mount; render booking history table with columns: Reference, Course (locale-aware), Start Date, Status; empty state if no bookings
+- [X] T088 [US4] Add `/booking/:scheduleId` route to `frontend/src/modules/customer/routes.ts` under `CustomerLayout` with auth guard
 
 **Checkpoint**: US4 done — full booking loop from course detail through payment to confirmation and dashboard display
 

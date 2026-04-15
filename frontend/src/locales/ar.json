@@ -50,6 +50,19 @@
       "seoFallbackDescription": "استعرض أهداف الدورة وسعرها والمواعيد التدريبية القادمة."
     }
   },
+  "booking": {
+    "title": "أكمل الحجز",
+    "selectDate": "اختر الموعد",
+    "fullyBooked": "مكتمل المقاعد",
+    "proceed": "المتابعة إلى الدفع",
+    "confirmed": "تم تأكيد الحجز",
+    "reference": "مرجع الحجز",
+    "viewDashboard": "عرض لوحة التحكم",
+    "checkoutHint": "راجع الموعد الذي اخترته ثم تابع إلى مسار الدفع التجريبي.",
+    "simulatePayment": "محاكاة نجاح الدفع",
+    "paymentIntent": "معرّف الدفع",
+    "error": "تعذر إكمال الحجز. حاول مرة أخرى."
+  },
   "auth": {
     "login": "تسجيل الدخول",
     "register": "إنشاء حساب",
@@ -86,6 +99,10 @@
     "bookingsTitle": "حجوزاتك",
     "bookingsDescription": "تابع الدورات التي حجزها فريقك وارجع إلى الجلسات القادمة بسهولة.",
     "noBookings": "لا توجد حجوزات حتى الآن.",
-    "browseCourses": "استعرض الدورات"
+    "browseCourses": "استعرض الدورات",
+    "reference": "المرجع",
+    "course": "الدورة",
+    "startDate": "تاريخ البدء",
+    "status": "الحالة"
   }
 }
