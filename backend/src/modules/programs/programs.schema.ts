@@ -17,6 +17,7 @@ const programBodySchema = z.object({
   seoDescEn: z.string().trim().min(1).max(160),
   seoKeywordsAr: z.string().trim().optional(),
   seoKeywordsEn: z.string().trim().optional(),
+  isActive: z.boolean().optional().default(true),
 });
 
 export const createProgramSchema = z.object({
@@ -29,6 +30,32 @@ export const getProgramSchema = z.object({
   body: z.object({}).default({}),
   params: z.object({
     slug: slugSchema,
+  }),
+  query: z.object({}).default({}),
+});
+
+export const createAdminProgramSchema = createProgramSchema;
+
+export const updateProgramSchema = z.object({
+  body: programBodySchema,
+  params: z.object({
+    id: z.string().trim().min(1),
+  }),
+  query: z.object({}).default({}),
+});
+
+export const deleteProgramSchema = z.object({
+  body: z.object({}).default({}),
+  params: z.object({
+    id: z.string().trim().min(1),
+  }),
+  query: z.object({}).default({}),
+});
+
+export const getAdminProgramSchema = z.object({
+  body: z.object({}).default({}),
+  params: z.object({
+    id: z.string().trim().min(1),
   }),
   query: z.object({}).default({}),
 });

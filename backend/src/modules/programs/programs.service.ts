@@ -1,5 +1,6 @@
 import { prisma } from '../../lib/prisma.js';
 import { cacheService } from '../../services/cache.service.js';
+import { AuthError } from '../auth/auth.service.js';
 
 const PROGRAMS_LIST_CACHE_KEY = 'cache:list:programs';
 const PROGRAM_CACHE_PREFIX = 'cache:entity:program:';
@@ -154,4 +155,169 @@ export const getProgramBySlug = async (slug: string) => {
   await cacheService.set(cacheKey, payload, CACHE_TTL_SECONDS);
 
   return payload;
+};
+
+const invalidateProgramCaches = async (slugs: string[] = []) => {
+  await Promise.all([
+    cacheService.invalidatePrefix(PROGRAMS_LIST_CACHE_KEY),
+    cacheService.invalidatePrefix('cache:list:categories:'),
+    cacheService.del('cache:sitemap'),
+    ...slugs.map((slug) => cacheService.del(`${PROGRAM_CACHE_PREFIX}${slug}`)),
+  ]);
+};
+
+export const listAdminPrograms = async () =>
+  prisma.program.findMany({
+    orderBy: { updatedAt: 'desc' },
+    include: {
+      categories: {
+        select: { id: true },
+      },
+    },
+  });
+
+export const getAdminProgramById = async (id: string) => {
+  const program = await prisma.program.findUnique({
+    where: { id },
+    include: {
+      categories: {
+        orderBy: { updatedAt: 'desc' },
+        select: {
+          id: true,
+          nameAr: true,
+          nameEn: true,
+          updatedAt: true,
+        },
+      },
+    },
+  });
+
+  if (!program) {
+    throw new AuthError('Program not found.', 404);
+  }
+
+  return {
+    ...serializeProgram(program),
+    isActive: program.isActive,
+    categories: program.categories.map((category) => ({
+      id: category.id,
+      nameAr: category.nameAr,
+      nameEn: category.nameEn,
+      updatedAt: category.updatedAt.toISOString(),
+    })),
+  };
+};
+
+type ProgramPayload = {
+  slug: string;
+  nameAr: string;
+  nameEn: string;
+  descriptionAr: string;
+  descriptionEn: string;
+  seoTitleAr: string;
+  seoTitleEn: string;
+  seoDescAr: string;
+  seoDescEn: string;
+  seoKeywordsAr?: string;
+  seoKeywordsEn?: string;
+  isActive?: boolean;
+};
+
+export const createProgram = async (payload: ProgramPayload) => {
+  const program = await prisma.program.create({
+    data: {
+      ...payload,
+      slug: payload.slug.trim(),
+      seoKeywordsAr: payload.seoKeywordsAr || null,
+      seoKeywordsEn: payload.seoKeywordsEn || null,
+      isActive: payload.isActive ?? true,
+    },
+    include: {
+      categories: {
+        select: { id: true },
+      },
+    },
+  });
+
+  await invalidateProgramCaches([program.slug]);
+
+  return {
+    ...serializeProgram(program),
+    isActive: program.isActive,
+  };
+};
+
+export const updateProgram = async (id: string, payload: ProgramPayload) => {
+  const existingProgram = await prisma.program.findUnique({
+    where: { id },
+  });
+
+  if (!existingProgram) {
+    throw new AuthError('Program not found.', 404);
+  }
+
+  const program = await prisma.$transaction(async (tx) => {
+    const updatedProgram = await tx.program.update({
+      where: { id },
+      data: {
+        ...payload,
+        slug: payload.slug.trim(),
+        seoKeywordsAr: payload.seoKeywordsAr || null,
+        seoKeywordsEn: payload.seoKeywordsEn || null,
+        isActive: payload.isActive ?? existingProgram.isActive,
+      },
+      include: {
+        categories: {
+          select: { id: true },
+        },
+      },
+    });
+
+    if (existingProgram.slug !== updatedProgram.slug) {
+      await tx.slugRedirect.upsert({
+        where: {
+          oldSlug_entityType: {
+            oldSlug: existingProgram.slug,
+            entityType: 'program',
+          },
+        },
+        update: {
+          newSlug: updatedProgram.slug,
+          entityId: updatedProgram.id,
+        },
+        create: {
+          oldSlug: existingProgram.slug,
+          newSlug: updatedProgram.slug,
+          entityType: 'program',
+          entityId: updatedProgram.id,
+        },
+      });
+    }
+
+    return updatedProgram;
+  });
+
+  await invalidateProgramCaches([existingProgram.slug, program.slug]);
+
+  return {
+    ...serializeProgram(program),
+    isActive: program.isActive,
+  };
+};
+
+export const deleteProgram = async (id: string) => {
+  const existingProgram = await prisma.program.findUnique({
+    where: { id },
+    select: { slug: true },
+  });
+
+  if (!existingProgram) {
+    throw new AuthError('Program not found.', 404);
+  }
+
+  await prisma.program.delete({
+    where: { id },
+  });
+
+  await invalidateProgramCaches([existingProgram.slug]);
 };

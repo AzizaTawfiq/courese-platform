@@ -1,27 +1,15 @@
-import { defineComponent, h } from 'vue';
-import { useI18n } from 'vue-i18n';
 import type { RouteRecordRaw } from 'vue-router';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 import AdminLayout from '@/layouts/AdminLayout.vue';
-
-const makeAdminView = (titleKey: string, compact = false) =>
-  defineComponent({
-    name: `${titleKey.replace(/\W+/g, '')}AdminView`,
-    setup() {
-      const { t } = useI18n();
-      return () =>
-        h('section', { class: compact ? 'mx-auto max-w-xl px-6 py-20' : '' }, [
-          h('h1', { class: 'text-3xl font-semibold' }, t(titleKey)),
-        ]);
-    },
-  });
-
-const adminLoginView = makeAdminView('admin.login', true);
-const adminProgramsView = makeAdminView('admin.programs');
-const adminCategoriesView = makeAdminView('admin.categories');
-const adminCoursesView = makeAdminView('admin.courses');
-const adminSchedulesView = makeAdminView('admin.schedules');
-const adminScheduleFileView = makeAdminView('admin.scheduleFile');
+import AdminCategories from './views/AdminCategories.vue';
+import AdminCourses from './views/AdminCourses.vue';
+import AdminLogin from './views/AdminLogin.vue';
+import AdminPrograms from './views/AdminPrograms.vue';
+import AdminScheduleFile from './views/AdminScheduleFile.vue';
+import AdminSchedules from './views/AdminSchedules.vue';
+import CategoryEdit from './views/CategoryEdit.vue';
+import CourseEdit from './views/CourseEdit.vue';
+import ProgramEdit from './views/ProgramEdit.vue';
 
 export const adminRoutes: RouteRecordRaw[] = [
   {
@@ -31,7 +19,7 @@ export const adminRoutes: RouteRecordRaw[] = [
       {
         path: 'login',
         name: 'admin-login',
-        component: adminLoginView,
+        component: AdminLogin,
       },
     ],
   },
@@ -43,27 +31,57 @@ export const adminRoutes: RouteRecordRaw[] = [
       {
         path: 'programs',
         name: 'admin-programs',
-        component: adminProgramsView,
+        component: AdminPrograms,
+      },
+      {
+        path: 'programs/new',
+        name: 'admin-program-create',
+        component: ProgramEdit,
+      },
+      {
+        path: 'programs/:id/edit',
+        name: 'admin-program-edit',
+        component: ProgramEdit,
       },
       {
         path: 'categories',
         name: 'admin-categories',
-        component: adminCategoriesView,
+        component: AdminCategories,
+      },
+      {
+        path: 'categories/new',
+        name: 'admin-category-create',
+        component: CategoryEdit,
+      },
+      {
+        path: 'categories/:id/edit',
+        name: 'admin-category-edit',
+        component: CategoryEdit,
       },
       {
         path: 'courses',
         name: 'admin-courses',
-        component: adminCoursesView,
+        component: AdminCourses,
+      },
+      {
+        path: 'courses/new',
+        name: 'admin-course-create',
+        component: CourseEdit,
+      },
+      {
+        path: 'courses/:id/edit',
+        name: 'admin-course-edit',
+        component: CourseEdit,
       },
       {
         path: 'schedules',
         name: 'admin-schedules',
-        component: adminSchedulesView,
+        component: AdminSchedules,
       },
       {
         path: 'schedule-file',
         name: 'admin-schedule-file',
-        component: adminScheduleFileView,
+        component: AdminScheduleFile,
       },
     ],
   },
